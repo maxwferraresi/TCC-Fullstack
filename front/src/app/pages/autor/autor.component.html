@@ -1,0 +1,104 @@
+<app-navbar [notHomePage]="true" nomePagina="Autores"></app-navbar>
+<section class="max-w-screen-xl mx-auto p-4">
+  <app-table [colunas]="colunas" [data]="autores" (dataAdd)="abrirModalCadastrar($event)" (dataEdit)="abrirModalEditar($event)" (dataDelete)="abrirModalDeletar($event)" (pesquisaEnviada)="receberPesquisa($event)" [isLoadingSearch]="isLoadingSearch"></app-table>
+</section>
+
+<!-- Modal Edição -->
+<p-dialog *ngIf="autorSelecionado" header="Editar Autor" [(visible)]="showModalEditar" [modal]="true" [style]="{ width: '50vw' }" [draggable]="false" [resizable]="false">
+  <form class="bg-white shadow-md rounded px-8 pt-6 pb-8 mb-4">
+    <div class="mb-6">
+      <label class="block text-gray-700 text-sm font-bold mb-2" for="nome">
+        Nome:
+      </label>
+      <input
+        class="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
+        id="nome"
+        type="text"
+        placeholder="Nome"
+        [(ngModel)]="autorSelecionado.nome"
+        name="nome"
+      />
+    </div>
+    <div class="mb-6">
+      <label class="block text-gray-700 text-sm font-bold mb-2" for="idade">
+        Idade:
+      </label>
+      <input
+        class="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
+        id="idade"
+        type="text"
+        placeholder="idade"
+        [(ngModel)]="autorSelecionado.idade"
+        name="idade"
+      />
+    </div>
+    <!-- Botão de editar -->
+    <div class="flex items-end justify-end">
+      <button
+        class="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded focus:outline-none focus:shadow-outline "
+        type="button"
+        (click)="editarAutor()"
+      >
+        Editar
+      </button>
+    </div>
+  </form>
+</p-dialog>
+
+<!-- Modal Cadastro -->
+<p-dialog header="Cadastrar Autor" [(visible)]="showModalCadastrar" [modal]="true" [style]="{ width: '50vw' }" [draggable]="false" [resizable]="false">
+  <form class="bg-white shadow-md rounded px-8 pt-6 pb-8 mb-4">
+    <div class="mb-6">
+      <label class="block text-gray-700 text-sm font-bold mb-2" for="nome">
+        Nome:
+      </label>
+      <input
+        class="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
+        id="nome"
+        type="text"
+        placeholder="Nome"
+        [(ngModel)]="autorCadastro.nome"
+        name="nome"
+      />
+    </div>
+    <div class="mb-6">
+      <label class="block text-gray-700 text-sm font-bold mb-2" for="idade">
+        Idade:
+      </label>
+      <input
+        class="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
+        id="idade"
+        type="text"
+        placeholder="idade"
+        [(ngModel)]="autorCadastro.idade"
+        name="idade"
+      />
+    </div>
+    <!-- Botão de cadastrar -->
+    <div class="flex items-end justify-end">
+      <button
+        class="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded focus:outline-none focus:shadow-outline "
+        type="button"
+        (click)="cadastrarAutor()"
+      >
+        Cadastrar
+      </button>
+    </div>
+  </form>
+</p-dialog>
+
+<!-- Modal Deletar -->
+<p-dialog *ngIf="autorSelecionado" header="Deletar Autor" [(visible)]="showModalDeletar" [modal]="true" [style]="{ width: '50vw' }" [draggable]="false" [resizable]="false">
+  <div>
+    <p>Tem certeza que deseja deletar o autor {{ autorSelecionado.nome }}?</p>
+    <div class="flex items-end justify-end">
+      <button
+        class="bg-red-500 hover:bg-red-700 text-white font-bold py-2 px-4 rounded focus:outline-none focus:shadow-outline "
+        type="button"
+        (click)="deletarAutor()"
+      >
+        Deletar
+      </button>
+    </div>
+  </div>
+</p-dialog>
