@@ -5,7 +5,7 @@ services:
     image: front
     container_name: front
     build:
-      context: ./fullstack-tcc
+      context: ./front
       dockerfile: Dockerfile
     restart: on-failure
     ports:
@@ -18,7 +18,7 @@ services:
     image: back
     container_name: back
     build:
-      context: ./tcc-back
+      context: ./back
       dockerfile: Dockerfile
     restart: on-failure
     ports:
