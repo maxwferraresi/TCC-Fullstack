@@ -1,22 +1,21 @@
 import {
-  Controller,
-  Get,
-  Post,
   Body,
-  Patch,
-  Param,
+  Controller,
   Delete,
+  Get,
+  Param,
+  Patch,
+  Post,
 } from '@nestjs/common';
+import { Livro } from './entities/livro.entity';
 import { LivrosService } from './livros.service';
-import { UpdateLivroDto } from './dto/update-livro.dto';
-import { Prisma } from '@prisma/client';
 
 @Controller('livros')
 export class LivrosController {
   constructor(private readonly livrosService: LivrosService) {}
 
   @Post()
-  create(@Body() createLivroDto: Prisma.LivroCreateInput) {
+  create(@Body() createLivroDto: Livro) {
     return this.livrosService.create(createLivroDto);
   }
 
@@ -36,7 +35,7 @@ export class LivrosController {
   }
 
   @Patch(':id')
-  update(@Param('id') id: string, @Body() updateLivroDto: UpdateLivroDto) {
+  update(@Param('id') id: string, @Body() updateLivroDto: Livro) {
     return this.livrosService.update(+id, updateLivroDto);
   }
 

@@ -1,68 +1,66 @@
 import { Injectable } from '@nestjs/common';
-import { DatabaseService } from 'src/database/database.service';
-import { Prisma } from '@prisma/client';
+import { InjectRepository } from '@nestjs/typeorm';
+import { EntityManager, Like, Repository } from 'typeorm';
+import { Autor } from './entities/autor.entity';
 
 @Injectable()
 export class AutoresService {
-  constructor(private readonly databaseService: DatabaseService) {}
-  create(createAutorDto: Prisma.AutorCreateInput) {
-    return this.databaseService.autor.create({
-      data: createAutorDto,
-    });
+  constructor(
+    @InjectRepository(Autor) private autorRepository: Repository<Autor>,
+    private readonly entityManager: EntityManager,
+  ) {}
+  create(createAutorDto: Autor) {
+    const autor = new Autor();
+    autor.nome = createAutorDto.nome;
+    autor.idade = createAutorDto.idade;
+    return this.entityManager.save(autor);
   }
 
   findAll() {
-    return this.databaseService.autor.findMany();
+    return this.autorRepository.find();
   }
 
   findOne(id: number) {
-    return this.databaseService.autor.findUnique({
-      where: {
-        id,
-      },
+    return this.autorRepository.findOneBy({
+      id,
     });
   }
 
   findByNome(nome: string) {
-    return this.databaseService.autor.findMany({
+    return this.autorRepository.find({
       where: {
-        nome: {
-          contains: nome,
-        },
+        nome: Like(`%${nome}%`),
       },
     });
   }
 
-  update(id: number, updateAutorDto: Prisma.AutorUpdateInput) {
-    return this.databaseService.autor.update({
-      where: {
-        id,
-      },
-      data: updateAutorDto,
-    });
+  update(id: number, updateAutorDto: Autor) {
+    return this.autorRepository.update(id, updateAutorDto);
   }
 
   async remove(id: number) {
-    const livrosAssociados = await this.databaseService.livro.findMany({
-      where: {
-        autorId: id,
-      },
-    });
+    //   const livrosAssociados = await this.autorRepository.livro.findMany({
+    //     where: {
+    //       autorId: id,
+    //     },
+    //   });
 
-    if (livrosAssociados.length > 0) {
-      for (const livro of livrosAssociados) {
-        await this.databaseService.livro.delete({
-          where: {
-            id: livro.id,
-          },
-        });
-      }
-    }
+    //   if (livrosAssociados.length > 0) {
+    //     for (const livro of livrosAssociados) {
+    //       await this.autorRepository.livro.delete({
+    //         where: {
+    //           id: livro.id,
+    //         },
+    //       });
+    //     }
+    //   }
 
-    return this.databaseService.autor.delete({
-      where: {
-        id: id,
-      },
-    });
+    //   return this.autorRepository.autor.delete({
+    //     where: {
+    //       id: id,
+    //     },
+    //   });
+    // }
+    return this.autorRepository.delete(id);
   }
 }

@@ -1,22 +1,21 @@
 import {
-  Controller,
-  Get,
-  Post,
   Body,
-  Patch,
-  Param,
+  Controller,
   Delete,
+  Get,
+  Param,
+  Patch,
+  Post,
 } from '@nestjs/common';
 import { EditorasService } from './editoras.service';
-import { UpdateEditoraDto } from './dto/update-editora.dto';
-import { Prisma } from '@prisma/client';
+import { Editora } from './entities/editora.entity';
 
 @Controller('editoras')
 export class EditorasController {
   constructor(private readonly editorasService: EditorasService) {}
 
   @Post()
-  create(@Body() createEditoraDto: Prisma.EditoraCreateInput) {
+  create(@Body() createEditoraDto: Editora) {
     return this.editorasService.create(createEditoraDto);
   }
 
@@ -36,7 +35,7 @@ export class EditorasController {
   }
 
   @Patch(':id')
-  update(@Param('id') id: string, @Body() updateEditoraDto: UpdateEditoraDto) {
+  update(@Param('id') id: string, @Body() updateEditoraDto: Editora) {
     return this.editorasService.update(+id, updateEditoraDto);
   }
 
