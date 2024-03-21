@@ -267,6 +267,13 @@ Este é um projeto que utiliza Docker para gerenciar os contêineres, NestJS com
   <br/>
   Angular é uma plataforma de desenvolvimento para a construção de aplicativos web robustos e escaláveis. Ele oferece um conjunto abrangente de recursos para desenvolvimento front-end, incluindo uma estrutura MVC, injeção de dependência, roteamento e muito mais.
 </details>
+<details>
+  <summary>Rotas</summary>
+
+  ##### `http://localhost:4200/autores`
+  ##### `http://localhost:4200/livros`
+  ##### `http://localhost:4200/editoras`
+</details>
 
 ## Docker
 
